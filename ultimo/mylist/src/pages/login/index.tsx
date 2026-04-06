@@ -14,13 +14,16 @@ import {
 import { style } from "./styles";
 
 import Logo from '../../assets/logo.png';
-import {MaterialIcons} from '@expo/vector-icons';
 import { themas } from "../../global/themes";
+import { Input } from "../../components";
+import { MaterialIcons, Octicons } from "@expo/vector-icons";
+import { Button } from "../../components/Button";
 
 
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [showPassword,setShowPassword] = useState(true);
     const [loading,setLoading] = useState(false);
 
     async function getLogin(){
@@ -55,50 +58,31 @@ export default function Login(){
 
             </View>
             <View style={style.boxMiddle}>
-                <Text style={style.titleInput}>Endereço de E-mail</Text>
-                <View style={style.boxInput}>
-                    <TextInput
-                    style={style.input}
+                <Input 
                     value={email}
                     onChangeText={setEmail}
+                    title="Endereço de E-mail"
+                    IconRight= {MaterialIcons}
+                    iconRightName="email"
                 />
-                <MaterialIcons
-                    name='email'
-                    size={20}
-                    color={themas.colors.gray}
-                />    
-
-                </View>
-
-                <Text style={style.titleInput}>Senha</Text>
-                 <View style={style.boxInput}>
-                    <TextInput
-                    style={style.input}
+                <Input 
                     value={password}
                     onChangeText={setPassword}
+                    title="Senha"
+                    IconRight= {Octicons}
+                    iconRightName={showPassword?"eye-closed":"eye"}
+                    secureTextEntry={showPassword}
+                    onIconRightPress={() =>setShowPassword(!showPassword)}
                 />
-                <MaterialIcons
-                    name='remove-red-eye'
-                    size={20}
-                    color={themas.colors.gray}
-                />    
-
-                </View>
                 
                 
             </View>
             <View style={style.boxBottom}>
-                <TouchableOpacity style={style.button} onPress={()=>getLogin()}>
-                    {
-                       loading?
-                          <ActivityIndicator color={'#ffff'} size={'small'}/>
-                       :
-                          <Text style={style.textButton}>Entrar</Text>
-                }
-      
-                    
-
-                </TouchableOpacity>
+                <Button 
+                text="Entrar"
+                loading={loading}
+                onPress={()=>getLogin()}
+                />
                 
 
             </View>
@@ -106,6 +90,8 @@ export default function Login(){
                 Não tem conta?<Text style={{color:themas.colors.primary}}> Crie agora!</Text>
             </Text>
         </View>
+    
+
     )
 
 }
